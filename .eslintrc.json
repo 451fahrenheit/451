@@ -18,9 +18,7 @@
       },
       "plugins": [
         "import",
-        "react",
-        "react-hooks",
-        "no-smart-quotes"
+        "react"
       ],  
     "extends": [
         "eslint:recommended",
