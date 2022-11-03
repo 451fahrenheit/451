@@ -3,6 +3,7 @@
         "es2021": true,
         "browser": true,
         "commonjs": true,
+        "amd": true,
         "es6": true,
         "jest": true,
         "mocha": true
@@ -54,6 +55,10 @@
         "semi": [
             "error",
             "always"
-        ]
+        ],
+        "import/no-unresolved": [
+          2, 
+          { "caseSensitive": false }
+       ]
     }
 }
