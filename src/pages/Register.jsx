@@ -1,12 +1,7 @@
+/* eslint-disable import/no-unresolved */
 import React from 'react';
+import Register from '../components/Register';
 
-function Register(){
-	return(
-		<h1>
-			SignUp
-		</h1>
-	);
+const RegisterPage = () => <Register />;
 
-}
-
-export default Register;
+export default RegisterPage;
