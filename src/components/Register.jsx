@@ -13,13 +13,47 @@ import {
 	useColorModeValue,
 	Link,
 } from '@chakra-ui/react';
+
 import { useState } from 'react';
 // import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons';
 
 function Register() {
 
 	const [showPassword, setShowPassword] = useState(false);
+	const [email, setEmail] = useState('');
+	const [password, setPassword] = useState('');
+	const [error, setError] = useState('');
+	const passwordRegEx  = /^.*(?=.{8,20})(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%&!-_]).*$/;
+	const emailRegEx  =  /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+	console.log(emailRegEx.test('abc@gmail'), 'alpha', passwordRegEx.test('1234567@Abc'));
+	function handleEmailChange(e){
+		setEmail(e.target.value);
+	}
+	function handlePasswordChange(e){
+		setPassword(e.target.value);
+	}
+	function handleRegister(){
+		validateEmailPassword();
+	}
+	function validateEmailPassword(){
+		const passwordRegEx  = /^.*(?=.{8,20})(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%&!-_]).*$/;
+		const emailRegEx  =  /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+		
+		if(email === '' || password === ''){
+			setError('Fields cannot be blank');
+		}
+		else if(!emailRegEx.test(email)){
+			setError('Email should be in the format identity@yourmail.com');
+		}
+		else if(!passwordRegEx.test(password)){
+			setError('Password should have a length of 8, should contain a character, a number, a letter');
+		}
+		else{
+			true;
+		}
+		
 
+	}
 	return (
 		<Flex
 			minH={'100vh'}
@@ -43,12 +77,20 @@ function Register() {
 					<Stack spacing={4}>
 						<FormControl id="email" isRequired>
 							<FormLabel>Email address</FormLabel>
-							<Input type="email" />
+							<Input 
+								data-cy="email"
+								type="email" 
+								value={email} 
+								onChange= {handleEmailChange}/>
 						</FormControl>
 						<FormControl id="password" isRequired>
 							<FormLabel>Password</FormLabel>
 							<InputGroup>
-								<Input type={showPassword ? 'text' : 'password'} />
+								<Input
+									data-cy="password"
+									type={showPassword ? 'text' : 'password'} 
+									value={password}
+									onChange= {handlePasswordChange}/>
 								<InputRightElement h={'full'}>
 									<Button
 										variant={'ghost'}
@@ -69,7 +111,9 @@ function Register() {
 								color={'white'}
 								_hover={{
 									bg: 'blue.500',
-								}}>
+								}}
+								onClick={handleRegister}
+							>
                 Register
 							</Button>
 						</Stack>
@@ -77,7 +121,7 @@ function Register() {
 							<FormLabel
 								data-cy="error"
 							>
-								Enter a valid email
+								{error}
 							</FormLabel>
 						</FormControl>
 						<Stack pt={6}>
