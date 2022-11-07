@@ -23,9 +23,7 @@ function Register() {
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
 	const [error, setError] = useState('');
-	const passwordRegEx  = /^.*(?=.{8,20})(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%&!-_]).*$/;
-	const emailRegEx  =  /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
-	console.log(emailRegEx.test('abc@gmail'), 'alpha', passwordRegEx.test('1234567@Abc'));
+
 	function handleEmailChange(e){
 		setEmail(e.target.value);
 	}
@@ -119,6 +117,7 @@ function Register() {
 						</Stack>
 						<FormControl id="error" pt={2}>
 							<FormLabel
+								color={'red'}
 								data-cy="error"
 							>
 								{error}
