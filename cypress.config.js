@@ -3,6 +3,7 @@ const { defineConfig } = require('cypress');
 module.exports = defineConfig({
 	e2e: {
 		baseUrl: 'http://localhost:3000',
+
 	},
 
 	component: {
@@ -10,5 +11,6 @@ module.exports = defineConfig({
 			framework: 'create-react-app',
 			bundler: 'webpack',
 		},
+		defaultCommandTimeout: 10000
 	},
 });
