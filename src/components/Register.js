@@ -15,14 +15,52 @@ import {
 } from '@chakra-ui/react';
 
 import { useState } from 'react';
+import {gql, useMutation} from '@apollo/client';
+import { Navigate } from 'react-router-dom';
+
 // import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons';
+// const navigate = useNavigate();
 
+const SIGNUP_MUTATION = gql`
+	mutation SignupMutation(
+	  $email: String!
+	  $password: String!
+	) {
+	  signup(
+		email: $email
+		password: $password
+		name: $name
+	  ) {
+		success
+	  }
+	}
+	`;
 function Register() {
-
 	const [showPassword, setShowPassword] = useState(false);
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
-	const [error, setError] = useState('');
+	const [errorMessage, setError] = useState('');
+
+	const signup = useMutation(SIGNUP_MUTATION, {
+		variables: {
+			email: email,
+			password: password
+		},
+		onCompleted: (data) => {
+			if(data.success)
+			{
+				<Navigate to="/dashboard" replace={true} />;
+			}
+			else{
+				setError('Something went wrong, please try again');
+			}
+
+		},
+		onError: (error) => {
+			setError(error);
+		}
+	});
+
 
 	function handleEmailChange(e){
 		setEmail(e.target.value);
@@ -31,9 +69,12 @@ function Register() {
 		setPassword(e.target.value);
 	}
 	function handleRegister(){
-		validateEmailPassword();
+
+		if(hasValidateEmailPassword()){
+			signup;
+		}
 	}
-	function validateEmailPassword(){
+	function hasValidateEmailPassword(){
 		const passwordRegEx  = /^.*(?=.{8,20})(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%&!-_]).*$/;
 		const emailRegEx  =  /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
 		
@@ -47,7 +88,7 @@ function Register() {
 			setError('Password should have a length of 8, should contain a character, a number, a letter');
 		}
 		else{
-			true;
+			return true;
 		}
 		
 
@@ -115,12 +156,12 @@ function Register() {
                 Register
 							</Button>
 						</Stack>
-						<FormControl id="error" pt={2}>
+						<FormControl id="errorMessage" pt={2}>
 							<FormLabel
 								color={'red'}
-								data-cy="error"
+								data-cy="errorMessage"
 							>
-								{error}
+								{errorMessage}
 							</FormLabel>
 						</FormControl>
 						<Stack pt={6}>
