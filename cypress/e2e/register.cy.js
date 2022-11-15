@@ -5,11 +5,12 @@ describe('User provides email and password ', () => {
 		const registerSelector = '[aria-label=register]';
 		it('redirects to login page', () => {
 			cy.visit('/register');
-			cy.get(emailSelector).type('cultivatesharing@gmail.com');
-			cy.get(passwordSelector).type('alphA@12345678');
-
-			cy.get(registerSelector).click();
-
+			// Arrange
+			cy.get(emailSelector).type('alpha@gmail.com', { force: true });
+			cy.get(passwordSelector).type('Alpha@271', { force: true });
+			//Act
+			cy.get(registerSelector).click({force: true});
+			// Assert
 			cy.url().should('include', '/login');
 			cy.get('h1').should('contain', 'Login');
 		});

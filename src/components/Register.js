@@ -16,43 +16,72 @@ import {
 
 import { useState } from 'react';
 import {gql, useMutation} from '@apollo/client';
-import { Navigate } from 'react-router-dom';
+import { Navigate, Link as RouterLink } from 'react-router-dom';
+
 
 // import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons';
 // const navigate = useNavigate();
 
 const SIGNUP_MUTATION = gql`
-	mutation SignupMutation(
-	  $email: String!
-	  $password: String!
-	) {
-	  signup(
-		email: $email
-		password: $password
-		name: $name
-	  ) {
-		success
-	  }
+mutation CreateUser($email: String!, $password: String!){
+	createUser(input: {authProvider: {credentials: {email: $email, password: $password}}}) {
+		user {
+			id
+			email
+		
 	}
+}				
+}
 	`;
-function Register() {
+const SIGNIN_MUTATION = gql`
+mutation LoginUser($email: String!, $password: String!) {
+	loginUser(input:{credentials:{email:$email, password:$password}}){
+		token
+		}
+
+}		
+	`;
+function Register(props) {
 	const [showPassword, setShowPassword] = useState(false);
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
 	const [errorMessage, setError] = useState('');
 
-	const signup = useMutation(SIGNUP_MUTATION, {
+	const btnText = props.isLogin?'Login':'Register';
+	const linkText = props.isLogin?'Register':'Login';
+	const linkHelperText= props.isLogin?'Do not have an account?':'Already a user?';
+	const routeText = props.isLogin?'/register':'/login';
+	const [signup] = useMutation(SIGNUP_MUTATION, {
 		variables: {
 			email: email,
 			password: password
 		},
 		onCompleted: (data) => {
-			if(data.success)
+			if(data.createUser.user.id)
 			{
-				<Navigate to="/dashboard" replace={true} />;
+				<Navigate to="/login" replace={true} />;
 			}
 			else{
 				setError('Something went wrong, please try again');
+			}
+
+		},
+		onError: (error) => {
+			setError(error);
+		}
+	});
+	const [authenticate] = useMutation(SIGNIN_MUTATION, {
+		variables: {
+			email: email,
+			password: password
+		},
+		onCompleted: (data) => {
+			if(data.createUser.user.id)
+			{
+				<Navigate to="/login" replace={true} />;
+			}
+			else{
+				setError('Invalid password, check if password is correct');
 			}
 
 		},
@@ -69,9 +98,16 @@ function Register() {
 		setPassword(e.target.value);
 	}
 	function handleRegister(){
+		if(props.isLogin){
+			if(hasValidateEmailPassword()){
+				authenticate();
+			}
 
-		if(hasValidateEmailPassword()){
-			signup;
+		}
+		else {
+			if(hasValidateEmailPassword()){
+				signup();
+			}
 		}
 	}
 	function hasValidateEmailPassword(){
@@ -102,10 +138,10 @@ function Register() {
 			<Stack spacing={8} mx={'auto'} maxW={'lg'} py={12} px={6}>
 				<Stack align={'center'}>
 					<Heading fontSize={'4xl'} textAlign={'center'}>
-            Sign up
+						{props.isLogin?'Login':'Sign up'}
 					</Heading>
 					<Text fontSize={'lg'} color={'gray.600'}>
-            to enjoy all of our cool features ✌️
+						{props.isLogin?'to start sharing':'to enjoy all of our cool features ✌️'}
 					</Text>
 				</Stack>
 				<Box
@@ -153,7 +189,7 @@ function Register() {
 								}}
 								onClick={handleRegister}
 							>
-                Register
+								{btnText}
 							</Button>
 						</Stack>
 						<FormControl id="errorMessage" pt={2}>
@@ -166,7 +202,8 @@ function Register() {
 						</FormControl>
 						<Stack pt={6}>
 							<Text align={'center'}>
-                Already a user? <Link color={'blue.400'}>Login</Link>
+								
+								{linkHelperText} <Link as={RouterLink} to={routeText} color={'blue.400'}>{linkText}</Link>
 							</Text>
 						</Stack>
 					</Stack>
