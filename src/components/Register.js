@@ -16,7 +16,7 @@ import {
 
 import { useState } from 'react';
 import {gql, useMutation} from '@apollo/client';
-import { Navigate, Link as RouterLink } from 'react-router-dom';
+import {  Link as RouterLink , useNavigate } from 'react-router-dom';
 
 
 // import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons';
@@ -42,6 +42,8 @@ mutation LoginUser($email: String!, $password: String!) {
 }		
 	`;
 function Register(props) {
+	const navigate = useNavigate();
+
 	const [showPassword, setShowPassword] = useState(false);
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
@@ -59,7 +61,7 @@ function Register(props) {
 		onCompleted: (data) => {
 			if(data.createUser.user.id)
 			{
-				<Navigate to="/login" replace={true} />;
+				navigate('/login');
 			}
 			else{
 				setError('Something went wrong, please try again');
@@ -67,7 +69,7 @@ function Register(props) {
 
 		},
 		onError: (error) => {
-			setError(error);
+			setError(error.message);
 		}
 	});
 	const [authenticate] = useMutation(SIGNIN_MUTATION, {
@@ -78,38 +80,45 @@ function Register(props) {
 		onCompleted: (data) => {
 			if(data.createUser.user.id)
 			{
-				<Navigate to="/login" replace={true} />;
+				navigate('/dashboard');
 			}
 			else{
-				setError('Invalid password, check if password is correct');
+				setError('Something went wrong, please try again');
 			}
 
 		},
 		onError: (error) => {
-			setError(error);
-		}
+			setError(error.message);
+		}		
 	});
 
 
 	function handleEmailChange(e){
+		setError('');
+		setPassword('');
 		setEmail(e.target.value);
 	}
 	function handlePasswordChange(e){
+		setError('');
 		setPassword(e.target.value);
 	}
-	function handleRegister(){
+
+	function  handleRegister(){
 		if(props.isLogin){
 			if(hasValidateEmailPassword()){
 				authenticate();
+				
 			}
-
-		}
+		
+		}		
 		else {
 			if(hasValidateEmailPassword()){
 				signup();
+			
 			}
 		}
 	}
+
 	function hasValidateEmailPassword(){
 		const passwordRegEx  = /^.*(?=.{8,20})(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%&!-_]).*$/;
 		const emailRegEx  =  /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
@@ -137,7 +146,7 @@ function Register(props) {
 			bg={useColorModeValue('gray.50', 'gray.800')}>
 			<Stack spacing={8} mx={'auto'} maxW={'lg'} py={12} px={6}>
 				<Stack align={'center'}>
-					<Heading fontSize={'4xl'} textAlign={'center'}>
+					<Heading fontSize={'4xl'} textAlign={'center'} data-cy="heading">
 						{props.isLogin?'Login':'Sign up'}
 					</Heading>
 					<Text fontSize={'lg'} color={'gray.600'}>

@@ -6,6 +6,8 @@ import {
 	createHttpLink,
 	InMemoryCache
 } from '@apollo/client';
+import { BrowserRouter } from 'react-router-dom';
+
 describe('<Register>', () => {
 	// Set up some constants for the selectors
 	const emailSelector = '[data-cy=email]';
@@ -33,7 +35,11 @@ describe('<Register>', () => {
 			link: httpLink,
 			cache: new InMemoryCache()
 		});
-		cy.mount(<ApolloProvider client={client}><Register /> </ApolloProvider>);
+		cy.mount(<ApolloProvider client={client}>	
+			<BrowserRouter>
+				<Register /> 		
+			</BrowserRouter>
+		</ApolloProvider>);
 	});
 
 
@@ -47,7 +53,11 @@ describe('<Register>', () => {
 				link: httpLink,
 				cache: new InMemoryCache()
 			});
-			cy.mount(<ApolloProvider client={client}><Register /> </ApolloProvider>);
+			cy.mount(<ApolloProvider client={client}>	
+				<BrowserRouter>
+					<Register /> 		
+				</BrowserRouter>
+			</ApolloProvider>);
 			// Arrange
 			cy.get(emailSelector).type('alpha@gmail.com', { force: true });
 			cy.get(passwordSelector).type(item, { force: true });
@@ -68,7 +78,11 @@ describe('<Register>', () => {
 				link: httpLink,
 				cache: new InMemoryCache()
 			});
-			cy.mount(<ApolloProvider client={client}><Register /> </ApolloProvider>);			
+			cy.mount(<ApolloProvider client={client}>	
+				<BrowserRouter>
+					<Register /> 		
+				</BrowserRouter>
+			</ApolloProvider>);			
 			cy.get(emailSelector).type(item, { force: true });
 			cy.get(passwordSelector).type('item@3221Alp', { force: true });
 			//Act
@@ -85,7 +99,11 @@ describe('<Register>', () => {
 			link: httpLink,
 			cache: new InMemoryCache()
 		});
-		cy.mount(<ApolloProvider client={client}><Register /> </ApolloProvider>);		
+		cy.mount(<ApolloProvider client={client}>	
+			<BrowserRouter>
+				<Register /> 		
+			</BrowserRouter>
+		</ApolloProvider>);
 		cy.get(passwordSelector).type('cultivatesharing@gmail.com', { force: true });
 		//Act
 		cy.get(registerSelector).click({force: true});
@@ -99,8 +117,11 @@ describe('<Register>', () => {
 			link: httpLink,
 			cache: new InMemoryCache()
 		});
-		cy.mount(<ApolloProvider client={client}><Register /> </ApolloProvider>);		
-		//Act
+		cy.mount(<ApolloProvider client={client}>	
+			<BrowserRouter>
+				<Register /> 		
+			</BrowserRouter>
+		</ApolloProvider>);		//Act
 		cy.get(registerSelector).click({force: true});
 		// Assert
 		cy.get(errorSelector).should('have.text', 'Fields cannot be blank');
@@ -113,7 +134,11 @@ describe('<Register>', () => {
 			link: httpLink,
 			cache: new InMemoryCache()
 		});
-		cy.mount(<ApolloProvider client={client}><Register /> </ApolloProvider>);			
+		cy.mount(<ApolloProvider client={client}>	
+			<BrowserRouter>
+				<Register /> 		
+			</BrowserRouter>
+		</ApolloProvider>);
 		//Act
 		cy.get(registerSelector).click({force: true});
 		// Assert
