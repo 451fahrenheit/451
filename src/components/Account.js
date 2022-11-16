@@ -81,6 +81,7 @@ function Account(props) {
 		onCompleted: (data) => {
 			if(data.loginUser.token)
 			{
+				localStorage.setItem('token', data.loginUser.token);
 				navigate('/dashboard');
 			}
 			else{
