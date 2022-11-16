@@ -13,6 +13,8 @@ import { setContext } from '@apollo/client/link/context';
 
 import './index.css';
 
+import ProtectedRoutes from './ProtectedRoutes';
+
 import Register from './pages/Register';
 import Login from './pages/Login';
 import Dashboard from './pages/Dashboard';
@@ -49,14 +51,15 @@ export default function App(){
 			<Routes>
 				<Route path="register" element={<Register />}/>
 				<Route path="login" element={<Login/>}/>
-				<Route path="dashboard" element={<Dashboard/>}/>
-				<Route path="search" element={<Search />}/>
-				<Route path="library" element={<Library/>}/>
-				<Route path="requests" element={<BookRequests/>}/>
-				<Route path="peers" element={<Peers/>}/>
-				<Route path="notifications" element={<Notifications/>}/>
-				<Route path="logout" element={<Logout/>}/>
-
+				<Route element={<ProtectedRoutes />}>
+					<Route path="dashboard" element={<Dashboard/>}/>
+					<Route path="search" element={<Search />}/>
+					<Route path="library" element={<Library/>}/>
+					<Route path="requests" element={<BookRequests/>}/>
+					<Route path="peers" element={<Peers/>}/>
+					<Route path="notifications" element={<Notifications/>}/>
+					<Route path="logout" element={<Logout/>}/>
+				</Route>
 			</Routes>
 		</BrowserRouter>
 	);
