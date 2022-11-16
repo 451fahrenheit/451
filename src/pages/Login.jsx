@@ -1,7 +1,7 @@
 /* eslint-disable import/no-unresolved */
 import React from 'react';
-import Register from '../components/Register';
+import Account from '../components/Account';
 
-const LoginPage = () => <Register isLogin={true} />;
+const LoginPage = () => <Account isLogin={true} />;
 
 export default LoginPage;

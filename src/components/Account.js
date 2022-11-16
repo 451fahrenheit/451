@@ -41,7 +41,7 @@ mutation LoginUser($email: String!, $password: String!) {
 
 }		
 	`;
-function Register(props) {
+function Account(props) {
 	const navigate = useNavigate();
 
 	const [showPassword, setShowPassword] = useState(false);
@@ -104,7 +104,7 @@ function Register(props) {
 		setPassword(e.target.value);
 	}
 
-	function  handleRegister(){
+	function  handleAccountButtonClick(){
 		if(hasValidateEmailPassword())
 		{
 			props.isLogin?authenticate():signup();
@@ -189,7 +189,7 @@ function Register(props) {
 								_hover={{
 									bg: 'blue.500',
 								}}
-								onClick={handleRegister}
+								onClick={handleAccountButtonClick}
 							>
 								{btnText}
 							</Button>
@@ -216,4 +216,4 @@ function Register(props) {
 }
 		
 
-export default Register;
+export default Account;

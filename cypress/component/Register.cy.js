@@ -1,5 +1,5 @@
 /* eslint-disable import/no-unresolved */
-import Register from '../../src/components/Register';
+import Account from '../../src/components/Account';
 import {
 	ApolloProvider,
 	ApolloClient,
@@ -8,7 +8,7 @@ import {
 } from '@apollo/client';
 import { BrowserRouter } from 'react-router-dom';
 
-describe('<Register>', () => {
+describe('<Account>', () => {
 	// Set up some constants for the selectors
 	const emailSelector = '[data-cy=email]';
 	const passwordSelector = '[data-cy=password]';
@@ -16,16 +16,7 @@ describe('<Register>', () => {
 	const errorSelector = '[data-cy=errorMessage]';
 	const emailTestData = ['abc@gmail', 'abc.com', 'abcdef'];
 	const passwordTestData = ['1234', '1234567@', 'a2345678'];
-	// beforeEach(() => {
-	// 	// Arrange
-	// 	const httpLink = createHttpLink({	uri: 'http://localhost:4000'
-	// 	});
-	// 	const client = new ApolloClient({
-	// 		link: httpLink,
-	// 		cache: new InMemoryCache()
-	// 	});
-	// 	cy.mount(<ApolloProvider client={client}><Register /> </ApolloProvider>);
-	// });
+
 	it('mounts', () => {
 
 		// Arrange
@@ -37,7 +28,7 @@ describe('<Register>', () => {
 		});
 		cy.mount(<ApolloProvider client={client}>	
 			<BrowserRouter>
-				<Register /> 		
+				<Account /> 		
 			</BrowserRouter>
 		</ApolloProvider>);
 	});
@@ -55,7 +46,7 @@ describe('<Register>', () => {
 			});
 			cy.mount(<ApolloProvider client={client}>	
 				<BrowserRouter>
-					<Register /> 		
+					<Account /> 		
 				</BrowserRouter>
 			</ApolloProvider>);
 			// Arrange
@@ -80,7 +71,7 @@ describe('<Register>', () => {
 			});
 			cy.mount(<ApolloProvider client={client}>	
 				<BrowserRouter>
-					<Register /> 		
+					<Account /> 		
 				</BrowserRouter>
 			</ApolloProvider>);			
 			cy.get(emailSelector).type(item, { force: true });
@@ -101,7 +92,7 @@ describe('<Register>', () => {
 		});
 		cy.mount(<ApolloProvider client={client}>	
 			<BrowserRouter>
-				<Register /> 		
+				<Account /> 		
 			</BrowserRouter>
 		</ApolloProvider>);
 		cy.get(passwordSelector).type('cultivatesharing@gmail.com', { force: true });
@@ -119,7 +110,7 @@ describe('<Register>', () => {
 		});
 		cy.mount(<ApolloProvider client={client}>	
 			<BrowserRouter>
-				<Register /> 		
+				<Account /> 		
 			</BrowserRouter>
 		</ApolloProvider>);		//Act
 		cy.get(registerSelector).click({force: true});
@@ -136,7 +127,7 @@ describe('<Register>', () => {
 		});
 		cy.mount(<ApolloProvider client={client}>	
 			<BrowserRouter>
-				<Register /> 		
+				<Account /> 		
 			</BrowserRouter>
 		</ApolloProvider>);
 		//Act
