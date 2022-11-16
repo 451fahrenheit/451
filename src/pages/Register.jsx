@@ -1,7 +1,7 @@
 /* eslint-disable import/no-unresolved */
 import React from 'react';
-import Register from '../components/Register';
+import Account from '../components/Account';
 
-const RegisterPage = () => <Register />;
+const RegisterPage = () => <Account />;
 
 export default RegisterPage;
