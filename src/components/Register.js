@@ -79,7 +79,7 @@ function Register(props) {
 			password: password
 		},
 		onCompleted: (data) => {
-			if(data.createUser.user.id)
+			if(data.loginUser.token)
 			{
 				navigate('/dashboard');
 			}
@@ -130,7 +130,7 @@ function Register(props) {
 		
 
 	}
-	
+
 	return (
 		<Flex
 			minH={'100vh'}
