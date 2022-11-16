@@ -53,6 +53,7 @@ function Register(props) {
 	const linkText = props.isLogin?'Register':'Login';
 	const linkHelperText= props.isLogin?'Do not have an account?':'Already a user?';
 	const routeText = props.isLogin?'/register':'/login';
+
 	const [signup] = useMutation(SIGNUP_MUTATION, {
 		variables: {
 			email: email,
@@ -104,18 +105,9 @@ function Register(props) {
 	}
 
 	function  handleRegister(){
-		if(props.isLogin){
-			if(hasValidateEmailPassword()){
-				authenticate();
-				
-			}
-		
-		}		
-		else {
-			if(hasValidateEmailPassword()){
-				signup();
-			
-			}
+		if(hasValidateEmailPassword())
+		{
+			props.isLogin?authenticate():signup();
 		}
 	}
 
@@ -138,6 +130,7 @@ function Register(props) {
 		
 
 	}
+	
 	return (
 		<Flex
 			minH={'100vh'}
