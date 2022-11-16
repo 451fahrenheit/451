@@ -59,6 +59,8 @@
         "import/no-unresolved": [
           2, 
           { "caseSensitive": false }
-       ]
+       ],
+       "react/prop-types": "off"
+
     }
 }

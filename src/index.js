@@ -13,9 +13,10 @@ import {
 import './index.css';
 
 import Register from './pages/Register';
+import Login from './pages/Login';
 
   
-const httpLink = createHttpLink({	uri: 'http://localhost:4000'
+const httpLink = createHttpLink({	uri: 'http://localhost:4000/graphql'
 });
   
 const client = new ApolloClient({
@@ -28,6 +29,7 @@ export default function App(){
 		<BrowserRouter>
 			<Routes>
 				<Route path="register" element={<Register />}/>
+				<Route path="login" element={<Login/>}/>
 			</Routes>
 		</BrowserRouter>
 	);
