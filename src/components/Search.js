@@ -12,6 +12,7 @@ import {
 import { useState } from 'react';
 import Navbar from './Navbar';
 import { gql, useLazyQuery} from '@apollo/client';
+import { Link ,  Link as RouterLink  } from 'react-router-dom';
 
 const SEARCH_QUERY = gql `
 query Titles($search_title: String!) {
@@ -80,40 +81,7 @@ function Search(){
 				<p>{errorMessage}</p>
 				<div>
 					{books.length>0?books.map(book=>
-						<div key={book.volumeId}>	<Box
-							rounded={'lg'}
-							bg={useColorModeValue('white', 'gray.700')}
-							boxShadow={'lg'}
-							minHeight={100}
-							minWidth={480}
-							mb={1}>
-							<HStack>
-								<Box>
-									<Image minHeight={90} minWidth={90} maxHeight={90} maxWidth={90} m={2} src={book.smallthumbnail} alt='Dan Abramov'></Image>
-								</Box>
-								<VStack align="left" paddingRight={10}>
-									<Text maxWidth={40}>
-										{book.title}
-									</Text>
-									<Text>
-									by {book.authors.join(',')}
-									</Text>
-									<HStack>
-										<Text>{book.language}</Text>
-										<Text>{book.pubDate}</Text>
-									</HStack>
-								</VStack>
-								<VStack align="right" >
-									<Box>
-										<Button>Add to library</Button>
-									</Box>
-									<Box>
-										<Button>Buy</Button>
-									</Box>
-								</VStack>
-							</HStack>
-			
-						</Box></div>):''};
+						bookCard(book)):''}
 				</div>
 			</VStack>
 
@@ -122,3 +90,40 @@ function Search(){
 	</>);
 }
 export default Search;
+
+function bookCard(book) {
+	return <div key={book.volumeId}>	<Box
+		rounded={'lg'}
+		bg={useColorModeValue('white', 'gray.700')}
+		boxShadow={'lg'}
+		minHeight={100}
+		minWidth={480}
+		mb={1}>
+		<HStack>
+			<Box>
+				<Image minHeight={90} minWidth={90} maxHeight={90} maxWidth={90} m={2} src={book.smallthumbnail} alt='Dan Abramov'></Image>
+			</Box>
+			<VStack align="left" paddingRight={10}>
+				<Link maxWidth={80}  as={RouterLink} to={'titles/' + book.volumeId}>
+					{book.title}
+				</Link>
+				<Text>
+					by {book.authors.join(',')}
+				</Text>
+				<HStack>
+					<Text>{book.language}</Text>
+					<Text>{book.pubDate}</Text>
+				</HStack>
+				<HStack>
+					<Box>
+						<Button>Add to library</Button>
+					</Box>
+					<Box>
+						<Button>Buy</Button>
+					</Box>
+				</HStack>
+			</VStack>
+		</HStack>
+
+	</Box></div>;
+}
