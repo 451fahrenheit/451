@@ -119,7 +119,8 @@ const DesktopNav = () => {
 								_hover={{
 									textDecoration: 'none',
 									color: linkHoverColor,
-								}}>
+								}}
+								data-cy={navItem.datacy}>
 								{navItem.label}
 							</Link>
 						</PopoverTrigger>
@@ -148,7 +149,7 @@ const DesktopNav = () => {
 	);
 };
 
-const DesktopSubNav = ({ label, href, subLabel }) => {
+const DesktopSubNav = ({ label, href, subLabel, datacy }) => {
 	return (
 		<Link
 			href={href}
@@ -162,7 +163,8 @@ const DesktopSubNav = ({ label, href, subLabel }) => {
 					<Text
 						transition={'all .3s ease'}
 						_groupHover={{ color: 'pink.400' }}
-						fontWeight={500}>
+						fontWeight={500}
+						data-cy={datacy}>
 						{label}
 					</Text>
 					<Text fontSize={'sm'}>{subLabel}</Text>
@@ -195,7 +197,7 @@ const MobileNav = () => {
 	);
 };
 
-const MobileNavItem = ({ label, children, href }) => {
+const MobileNavItem = ({ label, children, href, datacy }) => {
 	const { isOpen, onToggle } = useDisclosure();
 
 	return (
@@ -211,7 +213,8 @@ const MobileNavItem = ({ label, children, href }) => {
 				}}>
 				<Text
 					fontWeight={600}
-					color={useColorModeValue('gray.600', 'gray.200')}>
+					color={useColorModeValue('gray.600', 'gray.200')}
+					data-cy={datacy}>
 					{label}
 				</Text>
 				{children && (
@@ -249,23 +252,28 @@ const MobileNavItem = ({ label, children, href }) => {
 const NAV_ITEMS = [
 	{
 		label: 'Dashboard',
-		href: '/dashboard'
+		href: '/dashboard',
+		datacy:'dashboard-nav',
 	},
 	{
 		label: 'Search',
-		href: '/search'
+		href: '/search',
+		datacy:'search-nav',
 	},
 	{
 		label: 'My Library',
-		href: '/library'
+		href: '/library',
+		datacy:'library-nav',
 	},
 	{
 		label: 'Book Requests',
-		href: '/requests'
+		href: '/requests',
+		datacy:'requests-nav',
 	},
 	{
 		label: 'Peers',
-		href: '/peers'
+		href: '/peers',
+		datacy:'peers-nav',
 	},
 	// {
 	// 	label: 'Inspiration',

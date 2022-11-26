@@ -73,13 +73,13 @@ function Search(){
 					p={5}
 					maxH={20}>
 					<HStack>
-						<Input onChange={handleSearchText} maxW={1500} placeholder='What do you want to read?' />
-						<Button onClick={handleSearch}>Search</Button>
+						<Input onChange={handleSearchText} maxW={1500} placeholder='What do you want to read?' data-cy="search"/>
+						<Button onClick={handleSearch} data-cy="searchButton">Search</Button>
 					</HStack>
 					
 				</Box>
-				<p>{errorMessage}</p>
-				<div>
+				<p data-cy="errorMessage">{errorMessage}</p>
+				<div data-cy="searchResults">
 					{books.length>0?books.map(book=>
 						bookCard(book)):''}
 				</div>
@@ -104,7 +104,7 @@ function bookCard(book) {
 				<Image minHeight={90} minWidth={90} maxHeight={90} maxWidth={90} m={2} src={book.smallthumbnail} alt='Dan Abramov'></Image>
 			</Box>
 			<VStack align="left" paddingRight={10}>
-				<Link maxWidth={80}  as={RouterLink} to={'titles/' + book.volumeId}>
+				<Link maxWidth={80}  as={RouterLink} to={'titles/' + book.volumeId} data-cy="title">
 					{book.title}
 				</Link>
 				<Text>
