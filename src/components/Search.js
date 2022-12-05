@@ -6,13 +6,14 @@ import {
 	HStack,
 	Box,
 	VStack,
-	Image,
-	Text
+
 } from '@chakra-ui/react';
 import { useState } from 'react';
 import Navbar from './Navbar';
-import { gql, useLazyQuery} from '@apollo/client';
-import { Link ,  Link as RouterLink  } from 'react-router-dom';
+import { gql, useLazyQuery,}
+	from '@apollo/client';
+
+import BookCard from './BookCard';
 
 const SEARCH_QUERY = gql `
 query Titles($search_title: String!) {
@@ -31,6 +32,7 @@ query Titles($search_title: String!) {
 `;
 
 function Search(){
+	
 	const [searchText,setSearchText] = useState('');
 	const [errorMessage,setError] = useState('');
 	const [books,setBooks] = useState([]);
@@ -74,14 +76,14 @@ function Search(){
 					maxH={20}>
 					<HStack>
 						<Input onChange={handleSearchText} maxW={1500} placeholder='What do you want to read?' data-cy="search"/>
-						<Button onClick={handleSearch} data-cy="searchButton">Search</Button>
+						<Button key="search" onClick={handleSearch} data-cy="searchButton">Search</Button>
 					</HStack>
 					
 				</Box>
 				<p data-cy="errorMessage">{errorMessage}</p>
 				<div data-cy="searchResults">
 					{books.length>0?books.map(book=>
-						bookCard(book)):''}
+						<BookCard key={book.volumeId} book={book}/>):''}
 				</div>
 			</VStack>
 
@@ -91,39 +93,3 @@ function Search(){
 }
 export default Search;
 
-function bookCard(book) {
-	return <div key={book.volumeId}>	<Box
-		rounded={'lg'}
-		bg={useColorModeValue('white', 'gray.700')}
-		boxShadow={'lg'}
-		minHeight={100}
-		minWidth={480}
-		mb={1}>
-		<HStack>
-			<Box>
-				<Image minHeight={90} minWidth={90} maxHeight={90} maxWidth={90} m={2} src={book.smallthumbnail} alt='Dan Abramov'></Image>
-			</Box>
-			<VStack align="left" paddingRight={10}>
-				<Link maxWidth={80}  as={RouterLink} to={'titles/' + book.volumeId} data-cy="title">
-					{book.title}
-				</Link>
-				<Text>
-					by {book.authors.join(',')}
-				</Text>
-				<HStack>
-					<Text>{book.language}</Text>
-					<Text>{book.pubDate}</Text>
-				</HStack>
-				<HStack>
-					<Box>
-						<Button>Add to library</Button>
-					</Box>
-					<Box>
-						<Button>Buy</Button>
-					</Box>
-				</HStack>
-			</VStack>
-		</HStack>
-
-	</Box></div>;
-}

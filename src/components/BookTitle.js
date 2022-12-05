@@ -33,12 +33,10 @@ query Title($volume_id: String!) {
 function BookTitle(){
 	const params = useParams();
 
-	console.log(params, params.id, 'volumeId');
 	const { loading, error, data } = useQuery(SEARCH_BY_ID_QUERY, {
 		variables: { volume_id: params.id },
 	});
 	if (loading) return <p>Loading ...</p>;
-	console.log(data,'data');
 	if (error) return `Error! ${error.message}`;
 
 	return(<>
