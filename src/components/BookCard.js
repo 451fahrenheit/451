@@ -16,29 +16,15 @@ import { Link ,  Link as RouterLink,
 } from 'react-router-dom';
 
 const ADD_TO_LIBRARY_MUTATION = gql`
-mutation AddBook($volumeId: String!,	
-	$title: String!,
-	$subtitle: String!,
-	$description: String!,
-	$authors: String!,
-	$language: String!,
-	$pubDate: String!,
-	$smallthumbnail: String!,
-	$thumbnail: String!){
-	addBook(input: {book: {volumeId: $volumeID, title: $title,
-		subtitle: $subtitle,
-		description: $description,
-		authors: $authors,
-		language: $language,
-		pubDate: $pubDate,
-		smallthumbnail: $smallthumbnail,
-		thumbnail: $thumbnail}}) {
-		user {
+mutation AddBook {
+	addBook(input: {addBook: {volumeId: "goodbook", title: "alpha", subtitle: "alpha", description: "alpha", authors: ["alpha", "beta"], smallthumbnail: "alpha", thumbnail: "alpha", language: "alpha", pubDate: "alpha"}}) {
+		book {
 			id
-			email
-		
+			volumeId
+			title
+			userId
+		}
 	}
-}				
 }
 	`;
 function BookCard({book}) {
