@@ -56,6 +56,7 @@ export default function App(){
 					<Route path="dashboard" element={<Dashboard/>}/>
 					<Route path="search" element={<Search />}/>
 					<Route path="search/titles/:id" element={<BookTitle />}/>
+					<Route path="library/titles/:id" element={<BookTitle library={true}/>}/>
 					<Route path="library" element={<Library/>}/>
 					<Route path="requests" element={<BookRequests/>}/>
 					<Route path="peers" element={<Peers/>}/>

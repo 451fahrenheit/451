@@ -11,6 +11,7 @@ describe('User navigates to search tab ', () => {
 		const errorSelector = '[data-cy=errorMessage]';
 		const addTitle = '[data-cy=addTitle]';
 
+		
 
 		it('returns search results', () => {
 			cy.visit('/login');
@@ -41,7 +42,7 @@ describe('User navigates to search tab ', () => {
 
 		});
 		
-		it('throws required error when search is clicked without any input', () => {
+		it('on click a book title navigates to book page', () => {
 			cy.visit('/login');
 			cy.get(emailSelector).type('cultivatesharing@gmail.com', { force: true });
 			cy.get(passwordSelector).type('Alpha@451', { force: true });
