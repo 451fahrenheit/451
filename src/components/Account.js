@@ -19,9 +19,6 @@ import {gql, useMutation} from '@apollo/client';
 import {  Link as RouterLink , useNavigate } from 'react-router-dom';
 
 
-// import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons';
-// const navigate = useNavigate();
-
 const SIGNUP_MUTATION = gql`
 mutation CreateUser($email: String!, $password: String!){
 	createUser(input: {authProvider: {credentials: {email: $email, password: $password}}}) {
