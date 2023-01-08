@@ -40,10 +40,13 @@ mutation UpdateBook($isPublic: Boolean!, $id: ID!) {
 		}
 	}
 }`;
-function BookCard({book, library}) {
+function BookCard({book, library, anyUserId}) {
 	const [is_public,setPublic] = useState(false);
 	const navigate = useNavigate();
-
+	let anyUser = false;
+	if(anyUserId){
+		anyUser = true;
+	}
 	const [addBook] = useMutation(ADD_TO_LIBRARY_MUTATION, {
 		variables: {
 			volumeId: book.volumeId, 
@@ -120,13 +123,19 @@ function BookCard({book, library}) {
 				</HStack>
 				{library?
 					(<HStack>					
-						{!book.isPublic?
+						{!book.isPublic&&!anyUser&&
 							(<Box>
 								<Button data-cy="makePublic" key={book.volumeId} onClick={(e)=>handleIspublic(e,book)}>Make it Public</Button>
-							</Box>)	:(<Box>
-								<Button data-cy="makePersonal" key={book.volumeId} onClick={(e)=>handleIspublic(e,book)}>Make it Personal</Button>
-							</Box>)
+							</Box>)	}
+						{book.isPublic&&!anyUser&&(<Box>
+							<Button data-cy="makePersonal" key={book.volumeId} onClick={(e)=>handleIspublic(e,book)}>Make it Personal</Button>
+						</Box>)
 						}	
+						{anyUser&&(<Box>
+							<Button data-cy="requestBook" key={book.volumeId} onClick={(e)=>handleIspublic(e,book)}>Request Book</Button>
+						</Box>)
+
+						}
 					</HStack>):
 					(<HStack>		
 								

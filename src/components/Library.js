@@ -17,6 +17,8 @@ import { gql, useLazyQuery, useQuery}
 	from '@apollo/client';
 
 import BookCard from './BookCard';
+import { useParams } from 'react-router-dom';
+
 
 const GET_BOOK_BY_TITLE = gql `
 query GetUserBookWithTitle($search_title: String!) {
@@ -52,6 +54,21 @@ query GetBooks {
 	}
 	}
 `;
+const FETCH_ANY_USER_BOOKS = gql `
+query FetchAnyUserBooks($id: ID!) {
+	fetchAnyUserBooks(id:$id){
+		volumeId
+		title
+		subtitle
+		description
+		authors
+		language
+		pubDate
+		smallthumbnail
+		thumbnail
+	}
+	}
+`;
 
 function Library(){
 
@@ -59,24 +76,46 @@ function Library(){
 	const [errorMessage,setError] = useState('');
 	const [books,setBooks] = useState([]);
 	const [is_public,setPublic] = useState(false);
-	// const [value,setPublicValue] = useState(false);
+	const params = useParams();
 
-	useQuery(FETCH_USER_BOOKS, {
+	const id = parseInt(params.id);
+	if(id){
+
+		useQuery(FETCH_ANY_USER_BOOKS, {
+			variables: { id: id },
+			onCompleted: (data) => {
+				if(data.fetchAnyUserBooks)
+				{
+					setBooks(data.fetchAnyUserBooks);
+				}
+				else{
+					setError('Something went wrong, please try again');
+				}
+
+			},
+			onError: (error) => {
+				setError(error.message);
+			}
+		});
+	}
+	else{
+		useQuery(FETCH_USER_BOOKS, {
 		
-		onCompleted: (data) => {
-			if(data.getBooks)
-			{
-				setBooks(data.getBooks);
-			}
-			else{
-				setError('Something went wrong, please try again');
-			}
+			onCompleted: (data) => {
+				if(data.getBooks)
+				{
+					setBooks(data.getBooks);
+				}
+				else{
+					setError('Something went wrong, please try again');
+				}
 
-		},
-		onError: (error) => {
-			setError(error.message);
-		}
-	});
+			},
+			onError: (error) => {
+				setError(error.message);
+			}
+		});
+	}
 	const [search] = useLazyQuery(GET_BOOK_BY_TITLE, {
 		variables: {
 			search_title: searchText,
@@ -108,6 +147,22 @@ function Library(){
 		const filtered_books = books.filter(is_public==is_public);
 		setBooks(filtered_books);
 		// setPublicValue(e.target.value);
+	}
+	if(id){
+		return (<>
+			<Navbar />
+			<Flex minH={'100vh'} align="top" justify="center" bg={useColorModeValue('gray.50', 'gray.800')} pt={5}>
+				<VStack>
+	
+					<div data-cy="anyUserBooks">
+						{books.length>0?books.map(book=>
+							<BookCard key={book.volumeId} book={book} library={true} anyUserId={id}/>):''}
+					</div>
+				</VStack>
+	
+	
+			</Flex>
+		</>);
 	}
 	return (<>
 		<Navbar />
