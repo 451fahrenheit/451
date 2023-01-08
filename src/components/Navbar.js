@@ -275,6 +275,11 @@ const NAV_ITEMS = [
 		href: '/peers',
 		datacy:'peers-nav',
 	},
+	{
+		label: 'Peer Requests',
+		href: '/peer-requests',
+		datacy:'peerrequests-nav',
+	},
 	// {
 	// 	label: 'Inspiration',
 	// 	children: [

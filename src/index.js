@@ -25,6 +25,7 @@ import Peers from './pages/Peers';
 import Notifications from './pages/Notifications';
 import Logout from './pages/Logout';
 import BookTitle from './pages/BookTitle';
+import PeerRequests from './pages/PeerRequests';
 
   
 const httpLink = createHttpLink({	uri: 'http://localhost:4000/graphql'
@@ -57,9 +58,11 @@ export default function App(){
 					<Route path="search" element={<Search />}/>
 					<Route path="search/titles/:id" element={<BookTitle />}/>
 					<Route path="library/titles/:id" element={<BookTitle library={true}/>}/>
+					<Route path="library/:id" element={<Library/>}/>
 					<Route path="library" element={<Library/>}/>
 					<Route path="requests" element={<BookRequests/>}/>
 					<Route path="peers" element={<Peers/>}/>
+					<Route path="peer-requests" element={<PeerRequests/>}/>
 					<Route path="notifications" element={<Notifications/>}/>
 					<Route path="logout" element={<Logout/>}/>
 				</Route>
