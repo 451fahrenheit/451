@@ -40,6 +40,14 @@ mutation UpdateBook($isPublic: Boolean!, $id: ID!) {
 		}
 	}
 }`;
+
+const REQUEST_BOOK = gql `
+mutation RequestBook($sentToId: ID!,$sentForId: ID!){
+	requestBook(input:{sentToId:$sentToId, sentForId:$sentForId}){
+		success
+	}
+}`;
+
 function BookCard({book, library, anyUserId}) {
 	const [is_public,setPublic] = useState(false);
 	const navigate = useNavigate();
@@ -77,12 +85,11 @@ function BookCard({book, library, anyUserId}) {
 		},
 
 	});
-	function handleAddToLibrary(e){
-		// const navigate = useNavigate();
+	const [requestBook] = useMutation(REQUEST_BOOK);
 
+	function handleAddToLibrary(e){
 		if (e.target === e.currentTarget) {
 			addBook();
-
 		}	
 	}
 	function handleIspublic(e, book){
@@ -95,7 +102,16 @@ function BookCard({book, library, anyUserId}) {
 			}}));
 		}
 	}
-	
+
+	function handleRequestBook(e, book){
+		if (e.target === e.currentTarget) {
+			setPublic(!book.isPublic);
+			requestBook(	({	variables: {
+				sentToId: parseInt(anyUserId), 
+				sentForId: parseInt(book.id),
+			}}));
+		}
+	}
 	return <div key={book.volumeId}>	<Box
 		rounded={'lg'}
 		bg={useColorModeValue('white', 'gray.700')}
@@ -132,7 +148,7 @@ function BookCard({book, library, anyUserId}) {
 						</Box>)
 						}	
 						{anyUser&&(<Box>
-							<Button data-cy="requestBook" key={book.volumeId} onClick={(e)=>handleIspublic(e,book)}>Request Book</Button>
+							<Button data-cy="requestBook" key={book.volumeId} onClick={(e)=>handleRequestBook(e,book)}>Request Book</Button>
 						</Box>)
 
 						}
