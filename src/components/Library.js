@@ -57,6 +57,7 @@ query GetBooks {
 const FETCH_ANY_USER_BOOKS = gql `
 query FetchAnyUserBooks($id: ID!) {
 	fetchAnyUserBooks(id:$id){
+		id
 		volumeId
 		title
 		subtitle
@@ -146,7 +147,6 @@ function Library(){
 		setPublic(!is_public);
 		const filtered_books = books.filter(is_public==is_public);
 		setBooks(filtered_books);
-		// setPublicValue(e.target.value);
 	}
 	if(id){
 		return (<>
